@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -20,28 +21,31 @@ namespace Fixturizer {
                         var filename = fixtureName + ".json";
                         var path = Path.Combine(_basePath, filename);
 
-                        dynamic fixture;
-                        var mappedList = new List<T>();
-                        
+                        IList<T> mappedList = new List<T>();
                         using (var reader = new StreamReader(path))
                         {
                                 var buffer = reader.ReadToEnd();
-                                fixture = JsonConvert.DeserializeObject(buffer);
-
-                                foreach (var obj in fixture)
+                                dynamic fixtures = JsonConvert.DeserializeObject(buffer);
+                                foreach (var obj in fixtures)
                                 {
-                                        var mapped = new T();
-
-                                        foreach (var prop in obj)
-                                        {
-                                                SetProperty(prop, mapped);
-                                        }
-                                        
-                                        mappedList.Add(mapped);
+                                        mappedList.Add(LoadObject<T>(obj));
                                 }
                         }
 
                         return mappedList;
+                }
+
+                private T LoadObject<T>(JObject raw) where T : new()
+                {
+                        var mapped = new T();
+
+                        foreach (var prop in raw.Properties())
+                        {
+                                SetProperty(prop, mapped);
+                        }
+
+                        return mapped;
+                                        
                 }
 
                 protected void SetProperty<T>(JProperty source, T dest)
