@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Fixturizer;
 
@@ -18,6 +19,11 @@ namespace Fixturizer.Test
                 }
 
                 public double Length
+                {
+                        get; set;
+                }
+
+                public DateTime Creation
                 {
                         get; set;
                 }
@@ -42,6 +48,7 @@ namespace Fixturizer.Test
                         Assert.AreEqual(element.Id, 1);
                         Assert.AreEqual(element.Description, "teste");
                         Assert.AreEqual(element.Length, 10.543231234);
+                        Assert.AreEqual(element.Creation, new DateTime(2012, 02, 23, 21, 05, 09));
                 }
         }
 }

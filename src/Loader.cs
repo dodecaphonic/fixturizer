@@ -54,14 +54,22 @@ namespace Fixturizer {
                                 switch (source.Value.Type)
                                 {
                                 case JTokenType.Integer:
-                                        matchingProperty.SetValue(dest, (int)source.Value, null);
+                                        matchingProperty.SetValue(dest, (int)source, null);
                                         break;
+                                case JTokenType.Comment:
+                                case JTokenType.Raw:
                                 case JTokenType.String:
                                         matchingProperty.SetValue(dest, (string)source, null);
                                         break;
                                 case JTokenType.Float:
                                         matchingProperty.SetValue(dest, (double)source, null);
                                         break;
+                                case JTokenType.Date:
+                                        matchingProperty.SetValue(dest, (DateTime)source, null);
+                                        break;
+                                case JTokenType.Bytes:
+                                        matchingProperty.SetValue(dest, (byte[])source, null);
+                                        break;                                        
                                 default:
                                         Console.WriteLine("Fodeu");
                                         break;
