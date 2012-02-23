@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="/Users/dodecaphonic/Projects/Prodec/fixturizer/dist/Fixturizer.Test.dll" total="0" errors="0" failures="0" not-run="1" inconclusive="0" ignored="0" skipped="0" invalid="1" date="2012-02-23" time="18:02:36">
+  <environment nunit-version="2.6.0.12051" clr-version="2.0.50727.1433" os-version="Unix 11.3.0.0" platform="Unix" cwd="/Users/dodecaphonic/Projects/Prodec/fixturizer/bin/NUnit-2.6.0.12051/bin" machine-name="metcalf.local" user="dodecaphonic" user-domain="metcalf.local" />
+  <culture-info current-culture="pt-BR" current-uiculture="pt-BR" />
+  <test-suite type="Assembly" name="/Users/dodecaphonic/Projects/Prodec/fixturizer/dist/Fixturizer.Test.dll" executed="True" result="Failure" success="False" time="0.016" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="Fixturizer" executed="True" result="Failure" success="False" time="0.011" asserts="0">
+        <results>
+          <test-suite type="Namespace" name="Test" executed="True" result="Failure" success="False" time="0.010" asserts="0">
+            <results>
+              <test-suite type="TestFixture" name="TestLoader" executed="False" result="NotRunnable">
+                <reason>
+                  <message><![CDATA[Invalid signature for SetUp or TearDown method: Init]]></message>
+                </reason>
+                <results>
+                  <test-case name="Fixturizer.Test.TestLoader.TestLoadFlatObject" executed="False" result="NotRunnable">
+                    <reason>
+                      <message><![CDATA[Invalid signature for SetUp or TearDown method: Init]]></message>
+                    </reason>
+                  </test-case>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>
