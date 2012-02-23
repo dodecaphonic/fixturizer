@@ -1,0 +1,4 @@
+*.exe
+*.*db
+dist
+TestResult.xml
