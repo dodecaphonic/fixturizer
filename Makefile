@@ -3,20 +3,22 @@ DMCS=/usr/bin/dmcs
 NSJSON=vendor/Newtonsoft.Json.Net35.dll
 NUNITCORE=vendor/nunit-2.6/bin/lib/nunit.core.dll
 NUNITFW=vendor/nunit-2.6/bin/nunit.framework.dll
+GEOAPI=vendor/GeoAPI.dll
+NTSUITE=vendor/NetTopologySuite.dll
 NUNITCONSOLE=vendor/nunit-2.6/bin/nunit-console.exe
+OUTPUTLIB=dist/Fixturizer.dll
 
-library: src/Loader.cs 
-	$(DMCS) /out:dist/Fixturizer.dll /t:library /r:$(NSJSON) src/*.cs
-	cp $(NSJSON) dist
+clean:
+	rm -f dist/*
 
-runner: Runner.cs
-	$(DMCS) /out:dist/Runner.exe /r:$(NSJSON) Runner.cs src/*.cs
-	cp $(NSJSON) dist
+library: src/*.cs
+	$(DMCS) /out:$(OUTPUTLIB) /t:library /r:$(NSJSON) /r:$(NTSUITE) /r:$(GEOAPI) src/*.cs
+	cp $(NSJSON) $(GEOAPI) $(NTSUITE) dist
 
-tests: src/Loader.cs test/TestLoader.cs
-	$(DMCS) /out:dist/Fixturizer.Test.dll /t:library /r:$(NSJSON) /r:$(NUNITCORE) /r:$(NUNITFW) src/*.cs test/*.cs
-	cp $(NSJSON) $(NUNITCORE) $(NUNITFW) dist
+tests: library test/*.cs
+	$(DMCS) /out:dist/Fixturizer.Test.dll /t:library /r:$(OUTPUTLIB) /r:$(GEOAPI) /r:$(NSJSON) /r:$(NTSUITE) /r:$(NUNITCORE) /r:$(NUNITFW) test/*.cs
+	cp $(NUNITCORE) $(NUNITFW) dist
 	$(MONO) $(NUNITCONSOLE) dist/Fixturizer.Test.dll
 
-all: library runner tests
+all: clean library tests
 
