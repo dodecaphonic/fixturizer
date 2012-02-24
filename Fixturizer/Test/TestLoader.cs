@@ -16,7 +16,9 @@ namespace Fixturizer.Test
                 [SetUp]
                 public void Init()
                 {
-                        _loader = new Loader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Fixtures"));
+						var fullPath = System.Reflection.Assembly.GetAssembly(typeof(Loader)).Location;
+						var path = Path.GetDirectoryName(fullPath);
+                        _loader = new Loader(Path.Combine(path, "Fixtures"));
                 }
 
                 [Test]
