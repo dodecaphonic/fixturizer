@@ -9,7 +9,7 @@ namespace Fixturizer
         ///   Creates IValueConverters and allows users to get the appropriate
         ///   one for a given type.
         /// </summary>
-        internal class ValueConverterFactory
+        public class ValueConverterFactory
         {
                 private readonly IDictionary<Type, IValueConverter> _converters;
                 
