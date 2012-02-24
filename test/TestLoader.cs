@@ -29,6 +29,27 @@ namespace Fixturizer.Test
                 }
         }
 
+        class Layer
+        {
+                public int Id
+                {
+                        get; set;
+                }
+
+                public string Name
+                {
+                        get; set;
+                }                
+        }
+        
+        class ElementLayer : Element
+        {
+                public Layer Layer
+                {
+                        get; set;
+                }
+        }
+
         [TestFixture]
         public class TestLoader
         {
@@ -49,6 +70,18 @@ namespace Fixturizer.Test
                         Assert.AreEqual(element.Description, "teste");
                         Assert.AreEqual(element.Length, 10.543231234);
                         Assert.AreEqual(element.Creation, new DateTime(2012, 02, 23, 21, 05, 09));
+                }
+
+                [Test]
+                public void TestLoadObjectGraph()
+                {
+                        var elements = _loader.Load<ElementLayer>("elementlayer");
+                        var element = elements.First();
+                        Assert.AreEqual(element.Id, 1);
+                        Assert.AreEqual(element.Description, "teste");
+                        Assert.AreEqual(element.Length, 10.543231234);
+                        Assert.IsNotNull(element.Layer);
+                        Assert.AreEqual(element.Id, 1);
                 }
         }
 }
