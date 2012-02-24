@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using Fixturizer;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Fixturizer.Test
                 [SetUp]
                 public void Init()
                 {
-                        _loader = new Loader("/Users/dodecaphonic/Projects/Prodec/fixturizer/fixtures");
+                        _loader = new Loader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Fixtures"));
                 }
 
                 [Test]
