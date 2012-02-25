@@ -10,13 +10,11 @@ A dollop of data for your tests.
 
 ## Fixtures
 
-Fixturizer's data files are written in JSON format. The non-ceremonious ways of the notation and good library support (via Newtonsoft.Json) made it a top-notch implementation choice. All files have to end with a *".json"* extension.
+Fixturizer's data files are written in JSON format. It was chosen for its unceremonious notation, mostly, and good library support (via [JSON.NET][json.net]) made it a favorable implementation choice. Following this fact, all datafiles must end with a *".json"* extension.
 
 ### Format
 
-A fixture consists of a JSON array of objects to be mapped to a single .NET type (this may change in the future). You place data in the target type using the latter's public property names.
-
-Suppose you have the following .NET class:
+A fixture consists of a JSON array of objects that are to be mapped to a single .NET type. Suppose you have the following .NET class in your program:
 
     class TodoItem
     {
@@ -25,7 +23,7 @@ Suppose you have the following .NET class:
         public int Priority { get; set; }
     }
 
-If you were to write a set of data fixtures for it, your file would look something like this:
+If you were to write a set of data fixtures for it, your file would look something like:
 
     [
       {
@@ -45,11 +43,13 @@ If you were to write a set of data fixtures for it, your file would look somethi
       }
     ]
 
-This is pretty straightforward, I think.
+As you can see, the objects' properties match _TodoItem_'s, a characteristic that makes writing data fixtures in Fixturizer pretty straightforward.
 
 #### Nested Types
 
-Let's say you want to attach a file to a _TodoItem_. You could define _Attachment_ like this:
+One common situation is building objects with other nested objects. You need to build a complex object graph without getting pieces from different data sources and going about manually filling the slots up, so I felt this should be a pretty simple use case.
+
+For the sake of an exemple, let's say you want to attach a file to a _TodoItem_. You could define _Attachment_ like this:
 
     class Attachment
     {
@@ -69,10 +69,13 @@ Extend TodoItem so it has a field named "Attachment" with type _Attachment_ and 
       }
     ]
 
+And voilà: when you load this _TodoItem_, its _Attachment_ will be there waiting. To be clear, your nested types need not be part of your application specifically: they must simply be available for instantiation at runtime and have public, settable properties matching whatever you defined in your fixture.
 
 ##### Collections
 
-Let's say you want to test a todo list. You could define it as an object containing a set of the previously-described TodoItem:
+Nesting doesn't stop at single objects. You can load a bunch of them, really, and have a nice collection filled up for you when the magic happens..
+
+Let's say you want to test a todo list. You could define it as an object containing a set of the previously-described _TodoItem_:
 
     using System.Collections.Generic;
     
@@ -82,7 +85,7 @@ Let's say you want to test a todo list. You could define it as an object contain
         public IList<TodoItem> Items { get; set; }
     }
 
-Your fixture file would look something like this:
+Your fixture's property must point to a JSON array containing objects matching the nested type. For our _TodoItem_s, it would look something like this:
 
     [
       {
@@ -109,17 +112,15 @@ Your fixture file would look something like this:
       }
     ]
 
-You can easily notice that _Items_ is define as a JSON Array with objects that conform to _TodoItem_'s interface.
-
 ###### Limitations
 
-Currently the loading of Collections only works for System.Collections.Generic.IList<> and Iesi.Collections.ISet<>. If you need more, please go on and implement it.
+Currently the loading of Collections only works for System.Collections.Generic.IList<> and Iesi.Collections.ISet<>. If you need more, please go on and implement it. I'll be really glad.
 
 #### Geometries
 
-One of the leading motivations to write Fixturizer was the need to load GeoAPI geometries into the database without going through the hula-hoops of APIs and instantiations and incantations. To make matters simple, geometries are written in WKT, using a plain JSON string. GeoJSON may be more appropriate, but for now WKT is enough.
+One of the leading motivations to write Fixturizer was the need to load GeoAPI geometries into the database without going through the hula-hoops of APIs and instantiations and incantations. To make matters simple, geometries are written in [WKT][wkt], using a plain JSON string. [GeoJSON][geojson] felt a bit too precious for my purposes, but correctness may lead Fixturizer that way. Time will tell.
 
-To make a convoluted example, take your new-fangled great idea: a competitor to Google Maps with 4D interfaces and direct connections to the user's basal ganglia, so each interaction releases a rush of dopamine. You're really excited, but you know you have to start small and build from there, so you define a Placemark class:
+To make a convoluted example, take your new-fangled great idea: a competitor to Google Maps with 4D interfaces and direct connections to the user's basal ganglia, so each interaction releases a rush of dopamine. You're really excited, but you know you have to start small and build from there, so you come up with a Placemark class:
 
     using GeoAPI.Geometries;
     
@@ -139,6 +140,7 @@ When you're writing your model tests, your fixture will look like this:
       }
     ]
 
+When you deserialize the objects, everything will be compliant with _IGeometry_ and the birds outside your window will chirp in delight.
 
 ## Usage
 
@@ -146,7 +148,7 @@ Fixturizer's main star is _Loader_, the class you'll interact with in your tests
 
     var loader = new Fixturizer.Loader("/my/fixtures");
 
-To load the _TodoList_ fixture you defined above, which you saved with the creative name of "todolist.json", use the _Load_ method:
+To load the _TodoList_ fixture you defined above and saved with the creative name of "todolists.json", use the _Load<T>_ method:
 
     // todoLists will be an instance of IList<TodoList>
     var todoLists = loader.Load<TodoList>("todolists"); // ".json" is implicit
@@ -155,4 +157,8 @@ To load the _TodoList_ fixture you defined above, which you saved with the creat
 From then on you can interact with it normally:
 
     Console.WriteLine(todoList.Name); # => "A man with a plan"
- 
+
+
+[wkt]: http://en.wikipedia.org/wiki/Well-known_text
+[geojson]: http://en.wikipedia.org/wiki/GeoJSON
+[json.net]: http://james.newtonking.com/pages/json-net.aspx
