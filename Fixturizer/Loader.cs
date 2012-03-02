@@ -40,7 +40,7 @@ namespace Fixturizer
 
         protected IList<T> DesserializeStream<T>(StreamReader reader) where T : new()
         {
-            IList<T> mappedList = new List<T>();
+            List<T> mappedList = new List<T>();
             var buffer = reader.ReadToEnd();
             dynamic fixtures = JsonConvert.DeserializeObject(buffer);
             foreach (var obj in fixtures)
