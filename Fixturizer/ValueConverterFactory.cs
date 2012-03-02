@@ -31,7 +31,7 @@ namespace Fixturizer
                         {
                                 return _converters[t];
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
                                 throw new UnsupportedTypeException();
                         }
