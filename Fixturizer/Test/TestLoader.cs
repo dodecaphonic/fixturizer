@@ -63,7 +63,7 @@ namespace Fixturizer.Test
         }
     }
 
-    class Element
+    public class Element
     {
         public int Id
         {
@@ -90,7 +90,7 @@ namespace Fixturizer.Test
         }
     }
 
-    class Layer
+    public class Layer
     {
         public int Id
         {
@@ -105,7 +105,7 @@ namespace Fixturizer.Test
         }
     }
 
-    class ElementLayer : Element
+    public class ElementLayer : Element
     {
         public Layer Layer
         {
@@ -114,7 +114,7 @@ namespace Fixturizer.Test
         }
     }
 
-    class ElementWithCollection : Element
+    public class ElementWithCollection : Element
     {
         public IList<Layer> Layers
         {
