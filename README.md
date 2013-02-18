@@ -162,3 +162,11 @@ From then on you can interact with it normally:
 [wkt]: http://en.wikipedia.org/wiki/Well-known_text
 [geojson]: http://en.wikipedia.org/wiki/GeoJSON
 [json.net]: http://james.newtonking.com/pages/json-net.aspx
+
+## Development
+
+This project is not under active development, but it has proved its worth and may be useful to you. If you want to take it up, call me dumb (not the greatest of .NET guys) or just send me a question, feel free to do so.
+
+## Licensing
+
+See LICENSE.
